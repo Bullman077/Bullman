@@ -12,15 +12,15 @@ interface PublicRouteProps {
  * If user is not logged in, renders the children
  */
 const PublicRoute = ({ children }: PublicRouteProps) => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated  } = useAuth();
   const location = useLocation();
 
-  // If already logged in, redirect to home
-  if (isAuthenticated && location.pathname.includes("/login")) {
-    // Check if there's a location to redirect back to after logout
-    const from = location.state?.from?.pathname || "/";
-    return <Navigate to={from} replace />;
-  }
+  // // If already logged in, redirect to home
+  // if (isAuthenticated && location.pathname.includes("/login")) {
+  //   // Check if there's a location to redirect back to after logout
+  //   const from = location.state?.from?.pathname || "/";
+  //   return <Navigate to={from} replace />;
+  // }
 
   return <>{children}</>;
 };

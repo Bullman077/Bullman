@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react'
 import apiService from '../services/api'
 
 interface AdminPanelProps {
-  onClose: () => void;
+  // onClose: () => void;
 }
 
-function AdminPanel({ onClose }: AdminPanelProps) {
+function AdminPanel({  }: AdminPanelProps) {
   const [activeTab, setActiveTab] = useState('members')
   const [data, setData] = useState<Record<string, any[]>>({})
   const [loading, setLoading] = useState(true)
@@ -165,7 +165,7 @@ function AdminPanel({ onClose }: AdminPanelProps) {
   const handleAddUser = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
-      const response = await fetch('http://localhost:3001/authentication/register', {
+      const response = await fetch('http://localhost:3001/authentication/v1/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -354,7 +354,7 @@ function AdminPanel({ onClose }: AdminPanelProps) {
           <div className="flex justify-between items-center p-6 border-b">
             <h1 className="text-2xl font-bold text-gray-800">Admin Panel</h1>
             <button
-              onClick={onClose}
+              // onClick={onClose}
               className="text-gray-500 hover:text-gray-700 text-2xl"
             >
               ×

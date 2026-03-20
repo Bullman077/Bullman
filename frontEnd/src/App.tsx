@@ -1,9 +1,10 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useState } from "react";
 import {
   createBrowserRouter,
   createRoutesFromElements,
   RouterProvider,
   Route,
+  Navigate,
 } from "react-router-dom";
 import Authorisation from "./assets/Layouts/Authorisation";
 import Reset from "./pages/Authorization/Reset";
@@ -31,6 +32,12 @@ import ImageSlider from "./pages/Landing/components/ImageSlider";
 import { useAuth } from "./context/AuthContext";
 import { PublicRoute, ProtectedRoute } from "./Regulator";
 import CommunityHub from "./pages/sacramental/CommunityHub";
+import { Sacramentals } from "./pages/projects/pages/Sacramentals";
+import { Tshirts } from "./pages/projects/pages/Tshirts";
+import { Chairs } from "./pages/projects/pages/Chairs";
+import { Instruments } from "./pages/projects/pages/Instruments";
+import { OtherProjects } from "./pages/projects/pages/OtherProjects";
+import AdminPanel from "./pages/Landing/components/AdminPanel";
 
 // Lazy-loaded component
 const Login = lazy(() => import("./pages/Authorization/Login"));
@@ -73,6 +80,7 @@ const Home: React.FC = () => {
 };
 
 const App: React.FC = () => {
+  const { user } = useAuth();
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
@@ -89,8 +97,8 @@ const App: React.FC = () => {
           <Route path="otp/:reg" element={<ResetPasswordPage />} />
         </Route>
         <Route path="/admin/quiz" element={<Appadmin />}/>
+              <Route path="/" element={<Pageoulet />}>
 
-        <Route path="/" element={<Pageoulet />}>
           <Route index element={<Home />} />
 
           <Route
@@ -109,9 +117,22 @@ const App: React.FC = () => {
             <Route path="challenge" element={<Challenge />} />
           </Route>
 
+
+          <Route path="sacramentals" element={<Sacramentals />} />
+        <Route path="t-shirts" element={<Tshirts/>} />
+        <Route path="chairs" element={<Chairs/>} />
+        <Route path="instruments" element={<Instruments />} />
+        <Route path="other-projects" element={<OtherProjects/>} />
+      </Route>
+
+      <Route
+        path="/admin"
+        element={ user?.role =="" ? <AdminPanel /> : <Navigate to="/" replace />}
+      />
+
           <Route path="community-hub" element={<CommunityHub />} />
-        </Route>
       </>
+      
     )
   );
 
@@ -120,6 +141,7 @@ const App: React.FC = () => {
       <RouterProvider router={router} />
     </Suspense>
   );
+
 };
 
 export default App;

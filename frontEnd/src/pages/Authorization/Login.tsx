@@ -13,10 +13,12 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState<string>("");
   const { login } = useAuth();
   const navigate = useNavigate();
+  const [isloading ,  setisLoading]=useState(false)
 
   const submit = async () => {
     console.log("Submitting login with:", { username, password });
     try {
+      setisLoading(true)
       const response = await axios.post(
         "http://localhost:3001/authentication/v1/login",
         {
@@ -41,6 +43,8 @@ const Login: React.FC = () => {
       console.error("Error response:", axiosError.response?.data);
       console.error("Error status:", axiosError.response?.status);
       alert((axiosError.response?.data as ErrorResponse)?.message || "Login failed. Please check your credentials.");
+    }finally{
+      setisLoading(false)
     }
   };
 
@@ -96,9 +100,11 @@ const Login: React.FC = () => {
 
           <button
             onClick={submit}
+            disabled ={isloading ? true : false}
             className="w-full bg-blue-700 text-white py-2 px-4 rounded-md hover:bg-blue-800 transition-colors"
           >
-            Sign In
+         
+            {isloading  ?  <span>loading.....</span> : <span>   Sign In</span>}
           </button>
 
           <div className="text-center mt-4">

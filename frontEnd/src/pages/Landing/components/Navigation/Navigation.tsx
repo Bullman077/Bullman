@@ -49,7 +49,7 @@ function Navigation() {
 
   return (
     <>
-      {showAdmin && <AdminPanel onClose={() => setShowAdmin(false)} />}
+      {showAdmin && <AdminPanel />}
 
       <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm shadow-sm border-b border-gray-100 px-4 py-3 flex justify-between items-center">
         {/* Logo Section */}
@@ -63,6 +63,9 @@ function Navigation() {
         {/* Navigation Links */}
         {user ? (
           <>
+            <span className="text-sm font-semibold text-gray-700">
+              {/* Welcome, {user.username} */}
+            </span>
             <ul className="hidden md:flex items-center space-x-8">
               <li>
                 <button
@@ -130,7 +133,6 @@ function Navigation() {
                   <span>Projects</span>
                 </a>
               </li>
-
               <li>
                 <a
                   href="#activities"
@@ -153,7 +155,6 @@ function Navigation() {
                   <span>Activities</span>
                 </a>
               </li>
-
               <li>
                 <a
                   href="#gallery"
@@ -176,6 +177,13 @@ function Navigation() {
                   <span>Gallery</span>
                 </a>
               </li>
+
+              <button
+                className="bg-red-50 text-red-600 hover:bg-red-100 px-4 py-2 rounded-lg font-semibold transition-colors text-sm"
+                onClick={handleLogout}
+              >
+                Log Out
+              </button>
             </ul>
             {/* Mobile Menu Button */}
             <button
@@ -200,6 +208,7 @@ function Navigation() {
                 />
               </svg>
             </button>
+
           </>
         ) : (
           <>
@@ -337,9 +346,16 @@ function Navigation() {
                   <span>Devotion</span>
                 </a>
               </li>
+              <button
+                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full font-bold shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5"
+                onClick={() => navigate("/login")}
+              >
+                Log In
+              </button>
+
+
             </ul>
             {/* Mobile Menu Button */}
-
             <button
               className="md:hidden text-gray-600 hover:text-blue-600 transition-colors"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -366,33 +382,17 @@ function Navigation() {
         )}
 
         {/* Login Button */}
-        {user ? (
+        {user  && user?.role === "admin" && (
           <div className="flex items-center space-x-4">
-            <span className="text-sm font-semibold text-gray-700">
-              Welcome, {user.username}
-            </span>
-            {user.role === "admin" && (
-              <button
-                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors text-sm"
-                onClick={() => setShowAdmin(true)}
-              >
-                Admin Panel
-              </button>
-            )}
             <button
-              className="bg-red-50 text-red-600 hover:bg-red-100 px-4 py-2 rounded-lg font-semibold transition-colors text-sm"
-              onClick={handleLogout}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors text-sm"
+              onClick={() => setShowAdmin(true)}
             >
-              Log Out
+              Admin Panel
             </button>
+
+
           </div>
-        ) : (
-          <button
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full font-bold shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5"
-            onClick={() => navigate("/login")}
-          >
-            Log In
-          </button>
         )}
       </nav>
 
