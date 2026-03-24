@@ -29,25 +29,20 @@ const Login: React.FC = () => {
       console.log("Login response:", response.data);
 
       if (response.data.status === "success") {
-        console.log("Full response data keys:", Object.keys(response.data));
-        console.log("User data:", response.data.user);
-        console.log("Token data:", response.data.token);
+        
         login(response.data.user, response.data.token);
         navigate("/");
       } else {
         alert(response.data.message || "Login failed");
       }
     } catch (error: unknown) {
-      const axiosError = error as AxiosError;
-      console.error("Login error:", error);
-      console.error("Error response:", axiosError.response?.data);
-      console.error("Error status:", axiosError.response?.status);
-      alert((axiosError.response?.data as ErrorResponse)?.message || "Login failed. Please check your credentials.");
+      
+      alert((AxiosError.response?.data as ErrorResponse)?.message || "Login failed. Please check your credentials.");
     }finally{
       setisLoading(false)
     }
   };
-
+                       
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">

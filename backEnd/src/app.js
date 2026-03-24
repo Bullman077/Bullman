@@ -4,8 +4,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import multer from 'multer';
 import fs from 'fs';
-import authRoute from "./routers/index.js";
-import auth  from "./routers/v1/Authorization.js";
+import apiRoute from "./routers/index.js";
 import { api } from "./routers/api.js";
 import { hubRouter } from "./routers/hubRouter.js";
 import { BackendDataService } from "./services/backend-data.js";
@@ -73,7 +72,7 @@ const upload = multer({ storage, limits: { fileSize: 5 * 1024 * 1024 } });
 
 // Routes
 app.get('/', (_req, res) => res.redirect('/community-hub'));
-app.use("/authentication", auth);
+app.use("/authentication", apiRoute);
 app.use("/api", api);
 app.use("/community-hub", hubRouter);
 
@@ -99,7 +98,7 @@ app.post('/api/choir/gallery', upload.single('photo'), (req, res) => {
 });
 
 // Other legacy questions routes
-app.use("/questions", authRoute);
+app.use("/questions", apiRoute);
 
 // Static Files
 app.use(express.static(path.join(__dirname, '../../frontEnd/public')));
